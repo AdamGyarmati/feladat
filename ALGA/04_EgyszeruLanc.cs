@@ -28,23 +28,11 @@ namespace OE.ALGA.Adatszerkezetek
 
         public LancoltVerem()
         {
-            if (Ures)
-            {
-                this.fej = null;
-            }
+            this.fej = null;
         }
 
         public bool Ures => fej == null;
 
-        public void Felszabadit(LancElem<T> a)
-        {
-            while (fej != null)
-            {
-                LancElem<T> q = fej;
-                fej = fej.kov;
-                Felszabadit(q);
-            }
-        }
         public T Felso()
         {
             if (fej != null)
@@ -57,7 +45,6 @@ namespace OE.ALGA.Adatszerkezetek
             }
         }
 
-
         public void Verembe(T ertek)
         {
             LancElem<T> uj = new LancElem<T>(ertek, fej);
@@ -69,14 +56,22 @@ namespace OE.ALGA.Adatszerkezetek
             if (fej != null)
             {
                 T ertek = fej.tart;
-                LancElem<T> q = fej;
-                fej = fej.kov;
-                //Felszabadit(q);
+                fej = fej.kov; // A fej a következő elemre mutat
                 return ertek;
             }
             else
             {
                 throw new NincsElemKivetel();
+            }
+        }
+
+        public void Felszabadit()
+        {
+            while (fej != null)
+            {
+                LancElem<T> kovetkezo = fej.kov;
+                fej = null; // Felszabadítjuk az aktuális fejet
+                fej = kovetkezo; // Tovább lépünk a következő elemre
             }
         }
     }
